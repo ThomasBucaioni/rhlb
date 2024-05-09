@@ -34,6 +34,34 @@ check: `yum repolist`
 
 ## Add a kickstart file
 
+https://access.redhat.com/labs/kickstartconfig/
 
+## Twirk the ISO
+
+```
+cp -a ...
+ks=...
+mkisofs ...
+```
+
+## Preboot eXecution Environment
+
+### DHCP server
+
+```
+dnf install -dhcp-
+```
+
+### HTTP server
+```
+ks=nfs:a.b.c.d/ks.cfg
+```
+
+### TFTP server
+
+```
+dnf install tftpd-hpa
+vi /etc/default/tftpd-hpa
+```
 
 

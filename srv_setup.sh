@@ -11,6 +11,7 @@ yum install -y ipa-server ipa-server-dns bind-dyndb-ldap
 
 echo "$IP_ADDR $HOSTNAME $SHORTNAME" >> /etc/hosts
 
+# IPA server install (beware, timeouts on the reverse zone...)
 ipa-server-install --domain=$DOMAIN --realm=$REALM --ds-password=password --admin-password=password --hostname=$HOSTNAME --ip-address=$IP_ADDR --reverse-zone=c.b.a.in-addr.arpa. --forwarder=$GATEWAY --allow-zone-overlap --setup-dns --unattended
 
 for i in http https ldap ldaps kerberos kpasswd dns ntp ; do 
