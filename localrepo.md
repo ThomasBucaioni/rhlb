@@ -36,6 +36,8 @@ check: `yum repolist`
 
 https://access.redhat.com/labs/kickstartconfig/
 
+or pick `/root/anaconda-ks.cfg`
+
 ## Twirk the ISO
 
 ```
@@ -49,7 +51,7 @@ mkisofs ...
 ### DHCP server
 
 ```
-dnf install -dhcp-
+dnf install isc-dhcp-server
 ```
 
 ### HTTP server
@@ -64,4 +66,9 @@ dnf install tftpd-hpa
 vi /etc/default/tftpd-hpa
 ```
 
+## Virt-install
+
+```
+virt-install --name rhkshost --memory=4096 --disk path=/libvirt/images/rhkshost.qcow2,format=qcow2,size=20 --location="/bigfiles/Rhel-a.b-x86_64.iso --initrd-inject="$HOME/rhel-install/anaconda-ks.cfg" --extra-args="inst.ks=file:/anaconda-ks.cfg inst.ip=dhcp inst.console=ttyS0,115200n8" --os-variant=rhela.b --machine=q35 --boot=uefi
+```
 
