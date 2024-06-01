@@ -1,19 +1,21 @@
 # Local repository
 
-## Mount an iso image
+## Home repo
+
+### Mount an iso image
 
 ```
 mount /mnt/rhel-install/ rhel-a.b-x86_64-dvd.iso
 ```
 
-## Copy the DVD to `/var/www/html`
+### Copy the DVD to `/var/www/html`
 
 ```
 cp -a /mnt/rhel-install /var/www/html/rhel-install
 restorecon -Rvv /var/www/html
 ```
 
-## Make a repo
+### Make a repo
 
 In `/etc/yum.repo.d/unattended.repo`:
 ```
@@ -32,7 +34,7 @@ gpgcheck=0
 
 check: `yum repolist`
 
-## Add a kickstart file
+### Add a kickstart file
 
 https://access.redhat.com/labs/kickstartconfig/
 
@@ -50,14 +52,29 @@ mkisofs ...
 
 ### DHCP server
 
+Install on RH:
 ```
-dnf install isc-dhcp-server
+dnf install dhcp-server
 ```
+and config':
+```
+default-lease-time 600;
+max-lease-time 7200;
+authoritative;
 
-### HTTP server
+subnet 10.0.1.0 netmask 255.255.255.0 {
+	range 10.0.1.3 10.0.1.200;
+	option subnet-mask 255.255.255.0;
+	option routers 10.0.1.1;
+	option domain-name-servers 10.0.1.1, 1.1.1.1;
+	option domain-search "myrhcsa.net";
+	host rhcsa-clt {
+	  hardware ethernet 52:54:00:b1:0b:10;
+	  fixed-address 10.0.1.2;
+	}
+}
 ```
-ks=nfs:a.b.c.d/ks.cfg
-```
+and client: `nmcli con mod rhcsa-in ipv4.method auto`
 
 ### TFTP server
 
@@ -65,6 +82,34 @@ ks=nfs:a.b.c.d/ks.cfg
 dnf install tftpd-hpa
 vi /etc/default/tftpd-hpa
 ```
+Config: `/etc/default/tftpd-hpa`
+```
+TFTP_USERNAME="tftp"
+TFTP_DIRECTORY="/var/lib/tftpboot"
+TFTP_ADDRESS=":69"
+TFTP_OPTIONS="--secure"
+```
+
+Mount the iso and copy the content to the Tftp directory:
+```
+mount /path/to/rh.iso /mnt/iso
+cp -R /mnt/iso/install/* /var/lib/tftpboot
+```
+
+Add in `/etc/dhcp/dhcpd.conf`
+```
+subnet ...{
+    ...
+    allow booting;
+    arrom bootp;
+    next-server 10.0.1.1; # this server
+    filename "pxelinux.0"; 
+}
+```
+
+Restart both the DHCP and TFTP servers: `systemctl restart isc-dhcp-server tftpd-hpa`
+
+Choose the LAN boot device on the client.
 
 ## Libvirt
 
