@@ -5,7 +5,7 @@
 ### Mount an iso image
 
 ```
-mount /mnt/rhel-install/ rhel-a.b-x86_64-dvd.iso
+mount -o loop,ro -t iso9660 /mnt/rhel-install/ rhel-a.b-x86_64-dvd.iso
 ```
 
 ### Copy the DVD to `/var/www/html`
@@ -32,7 +32,7 @@ enabled=1
 gpgcheck=0
 ```
 
-check: `yum repolist`
+check: `dnf repolist`
 
 ### Add a kickstart file
 
@@ -79,21 +79,14 @@ and client: `nmcli con mod rhcsa-in ipv4.method auto`
 ### TFTP server
 
 ```
-dnf install tftpd-hpa
-vi /etc/default/tftpd-hpa
-```
-Config: `/etc/default/tftpd-hpa`
-```
-TFTP_USERNAME="tftp"
-TFTP_DIRECTORY="/var/lib/tftpboot"
-TFTP_ADDRESS=":69"
-TFTP_OPTIONS="--secure"
+dnf install tftp-server
+cp -r /usr/share/syslinux/* /var/lib/tftpboot/
 ```
 
 Mount the iso and copy the content to the Tftp directory:
 ```
 mount /path/to/rh.iso /mnt/iso
-cp -R /mnt/iso/install/* /var/lib/tftpboot
+cp -R /mnt/iso/install/* /var/lib/tftpboot/elX
 ```
 
 Add in `/etc/dhcp/dhcpd.conf`
@@ -107,7 +100,20 @@ subnet ...{
 }
 ```
 
-Restart both the DHCP and TFTP servers: `systemctl restart isc-dhcp-server tftpd-hpa`
+Restart both the DHCP and TFTP servers: `systemctl restart dhcpd tftpd`
+
+Add PxE menu in `/var/lib/tftpboot/pxelinux.cfg/default`:
+```
+default menu.c32
+prompt 0
+timeout 20
+#ONTIMEOUT local
+
+label el9
+    menu label ^Install RHEL 9.3
+    kernel el9/images/pxeboot/vmlinuz inst.ks=http://192.168.101.1/rhel-install/anaconda-ks.cfg inst.repo=http://192.168.101.1/rhel-install
+    append initrd=el9/images/pxeboot/initrd.img
+```
 
 Choose the LAN boot device on the client.
 
