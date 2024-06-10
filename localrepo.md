@@ -43,9 +43,8 @@ or pick `/root/anaconda-ks.cfg`
 ## Twirk the ISO
 
 ```
-cp -a ...
-ks=...
-mkisofs ...
+cd /path/to/iso
+mkisofs -o ../boot.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r .
 ```
 
 ## Preboot eXecution Environment
@@ -119,14 +118,42 @@ Choose the LAN boot device on the client.
 
 ## Libvirt
 
+### Virsh volume
+
+```
+virsh vol-create-as --pool mypool --name rhelguest-vda.qcows2 --format qcows2 –capacity 10G
+```
+
 ### Virt-install
 
+Simple version:
 ```
-virt-install --name rhkshost --memory=4096 --disk path=/libvirt/images/rhkshost.qcow2,format=qcow2,size=20 --location="/bigfiles/Rhel-a.b-x86_64.iso --initrd-inject="$HOME/rhel-install/anaconda-ks.cfg" --extra-args="inst.ks=file:/anaconda-ks.cfg inst.ip=dhcp inst.console=ttyS0,115200n8" --os-variant=rhela.b --machine=q35 --boot=uefi
+virt-install --name rhkshost --vcpus=8 --memory=8192 --disk path=/libvirt/images/rhkshost.qcow2,format=qcow2,size=20 --location="/bigfiles/Rhel-a.b-x86_64.iso --initrd-inject="$HOME/rhel-install/anaconda-ks.cfg" --extra-args="inst.ks=file:/anaconda-ks.cfg inst.ip=dhcp inst.console=ttyS0,115200n8" --os-variant=rhela.b --machine=q35 --boot=uefi
 ```
 
-### Virsh
+Full strike:
+```
+virt-install \
+--hvm \
+--name rhelguest-vm \
+–-memory 2G,maxmemory=4G \
+--vcpus 2,max=4 \
+--os-type linux \
+--os-variant rhel9 \
+--boot hd,cdrom,network,menu=on \
+--controller type=scsi,model=virtio-scsi \
+--disk device=cdrom,vol=/path/to/iso/boot.iso,readonly=on,bus=scsi \
+--disk device=disk,vol=mypool/rhelguest-vda.qcow2,cache=none,bus=scsi \
+--network network=bridge-eth0,model=virtio \
+--graphics vnc \
+--graphics spice \
+--noautoconsole \
+--memballoon virtio
+```
 
+### Virsh connection
+
+Connect to a VM:
 ```
 # virsh
 > list --all
