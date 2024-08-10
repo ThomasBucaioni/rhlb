@@ -62,3 +62,36 @@ echo 97 | awk 'BEGIN{for(n=0;n<256;n++)chr[n]=sprintf("%c",n)}{print chr[$1]}'
 awk 'BEGIN{printf "%c", 65}'
 ```
 
+## Misc
+
+### Strace
+
+```
+strace -cp $(pidof httdp)
+```
+
+### Perf
+
+```
+perf top
+```
+
+### Ionice
+
+```
+ionice -c2 -n0 -p $(pgrep -d, -f java)
+```
+
+### Syslog
+
+```
+awk '/ERROR/ {print}' /var/log/syslog | sed -e 's/.*ERROR //' -e 's/:.*//'
+```
+
+### Iptable
+
+```
+iptables -A INPUT -p tcp --dport 80 -m connlimit --connlimit-above 50 -j REJECT
+```
+
+
