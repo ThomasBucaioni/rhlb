@@ -2,7 +2,21 @@
 
 ## Sed
 
-Multi-line:
+### Main commands
+
+```
+sed '3,$d' somefile.txt
+sed -n '1,10p' somefile.txt
+sed -n '/pattern/p'
+sed -n '/\bsomeword\b/p'
+sed -n -e '|\bsome\b|p' -e '|\bword\b|p' 
+sed -e '7s|\bsome\b|word|2'
+sed '2itext_to_insert_line_2' somefile.txt
+sed '5atext_to_append_line_5' somefile.txt
+```
+
+### Multi-line
+
 -`n` copies the next line to the pattern space
 -`N` appends to the pattern space the next line, separates it by a new line character
 -`P` prints up to the newline character
@@ -18,18 +32,22 @@ sed 'N; s/pattern1\([[:space:]]\)pattern2/replace1\1replace2/g;l' somefile.txt
 sed '/^$/{N; /pattern1/D; /pattern2/D}' somefile.txt
 sed -n 'N; /pattern1\npattern2/P' somefile.txt
 sed -n '/somepattern/{h;n;p;g;p}' somefile.txt # switch line after somepattern with line having somepattern
-sed -n '{1!G;h;$p;}' somefile.txt # reverse somefile.txt
+sed -n '{1!G;h;$p;}' somefile.txt # reverse file
 sed '$!N; s/pattern1\([[:space:]]\)pattern2/replace1\1replace2/g;P;D' somefile.txt
 ```
 
 ## Awk
 
-Variables:
-- `FS`
+### Variables
+
+- `FS` field separator
 - `FIELDWIDTHS`
-- `RS`
-- `OFS`
-- `ORS`
+- `RS` record separator
+- `OFS` output field separator
+- `ORS` output record separator
+- `NF` number of fields
+- `NR` number of records
+- `FILENAME`
 
 ```
 awk 'BEGIN{FS=":"; FIELDWIDTHS="8 12 13 10"} {print $1,$2,$3}' /etc/passwd
@@ -41,9 +59,35 @@ awk '{if ($1>$2) {var=$1*$2; print var} else {print $1,$2}}' somefile.txt
 awk '{i=10; while(i<=10){ print $0; print i; i++ ; if (i==5) break; else continue}}' somefile.txt
 awk '{i=0; do{i++; print i} while(i<=10)}' somefile.txt
 awk '{for(i=0;i<=5;i++) print i}' somefile.txt
+df -hT | awk '{ print NR, $1, $4 }'
+awk '{print NR, NF, $NF}' 
+awk 'BEGIN {print FILENAME}'
+awk -v myvar=$bashvar -f progfile.awk -F':' {print $1} /etc/passwd
+awk '{print myvar}' myvar=$bashvar somefile.txt
+awk -v myvar1=10 -v myvar2=100 '$1 <= myvar1 && $4 >= myvar2 {print}'
 ```
 
-Format specifiers:
+### Program files
+
+- no globbing, `progfile.awk`:
+```
+#!/usr/bin/env awk -f
+
+BEGIN {
+    FS=':'
+}
+```
+- bash style:
+```
+#!/usr/bin/env bash
+
+awk 'BEGIN {
+    FS=":"
+}'
+```
+
+### Format specifiers
+
 - `s` string text
 - `i` integers
 - `d` integers
