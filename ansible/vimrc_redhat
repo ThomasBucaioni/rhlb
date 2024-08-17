@@ -1,0 +1,105 @@
+set ai et ts=2 sts=2 sw=2
+
+:set nu
+:set nonu
+:set cursorcolumn
+
+:set nocursorcolumn
+:set colorcolumn=3,5,7,9
+
+Ctrl-v = block selection ; Shift-i = insert mode
+Shift-v = line selection
+
+> = indent line
+< = deindent line
+. = redo last command
+
+-----
+
+jklh
+wbe
+xX
+dw
+u = undo ; Ctrl-r = redo
+dd = delete a line
+I = insert at the beginning of the line
+A = append at the end of the line
+R = replace mode ; Insert key
+v = visual mode
+Ctrl-v = visual block mode
+Shift-v = visual line mode
+O = newline above
+o = newline below
+Go = append at the end of the file
+:%s/yes/no/gc
+r = replace one single character
+5dw = delete 5 words
+5x = delete 5 characters
+10l = move the cursor 10 characters on the right
+
+Extend command mode:
+:help
+:q
+:set cuc
+:set number ; :set nu
+:w
+:w newfilename
+:w! forcesavefile (NO)
+:wq
+:wq! (NO)
+
+-----
+
+:ab a p = abbreviation
+:unab a
+
+v; ^v; V ; ab/B ; ib/B = visual (inner-)block with ()/{}
+
+22gI = insert text 22 times
+
+"ay = yank to buffer a
+"ap = put from buffer a
+
+cc = change entire line
+S = delete line and substitute text
+
+J = join line with one space
+gJ = join line without space
+
+:22 = go to line 22
+22G = go to line 22
+
+* = find word under cursor forward
+# = find word under cursor backward
+f = find inclusive forward
+F = find inclusive backward
+t = find till forward
+T = find till backward
+; = repeat backward t, T, f, F
+, = repeat forward t, T, f, F
+
+% = jump to matching bracket
+( = beginning of sentence
+{ = beginning of paragraph
+) = end of sentence
+} = end of paragraph
+
+H = cursor to top of screen
+M = cursor to middle of screen
+L = cursor to bottom of screen
+
+zz = cursor line to centre screen
+zt = cursol line to top of screen
+zb = cursor line to bottom of screen
+
+^f = move forward a full screen
+^b = move backword a full screen
+^u = move forward half a screen
+^d = move backward half a screen
+
+mc = mark current position as c
+`c = move cursor to c
+`` = return to previous context
+'c = move to the beginning of the line containing mark c
+:marks = list of marks
+
