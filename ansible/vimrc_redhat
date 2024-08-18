@@ -10,8 +10,9 @@ set ai et ts=2 sts=2 sw=2
 Ctrl-v = block selection ; Shift-i = insert mode
 Shift-v = line selection
 
-> = indent line
-< = deindent line
+>> = indent line
+<< = deindent line
+=3 = indent 3 lines
 . = redo last command
 
 -----
@@ -92,10 +93,12 @@ zz = cursor line to centre screen
 zt = cursol line to top of screen
 zb = cursor line to bottom of screen
 
-^f = move forward a full screen
-^b = move backword a full screen
-^u = move forward half a screen
-^d = move backward half a screen
+^f = scroll forward a full screen
+^b = scroll backward a full screen
+^u = scroll forward half a screen
+^d = scroll backward half a screen
+^y = scroll forward one line
+^e = scroll backward one line
 
 mc = mark current position as c
 `c = move cursor to c
