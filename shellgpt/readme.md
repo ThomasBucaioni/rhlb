@@ -20,7 +20,7 @@ env # check
 ```
 or in `~/.config/shell_gpt/.sgptrc`:
 ```
-DEFAULT_MODEL=gpt-4o # or gpt-4o-mini, gpt-3.5-turbo, ...
+DEFAULT_MODEL=gpt-4o-mini # or gpt-4o, gpt-3.5-turbo, ...
 OPENAI_API_KEY=someverylongstring
 ```
 
@@ -35,3 +35,42 @@ In the virtual environment:
 (gpt) sgpt "How to make a new SSH key pair"
 (gpt) sgpt "How to change SSH default port"
 ```
+
+## Save a session
+
+Question #1:
+```
+(gpt) sgpt --chat mysessionname --code "Python webcrawler to list all the links of a website"
+```
+
+Result #1:
+```
+import requests
+from bs4 import BeautifulSoup
+
+url = 'https://www.example.com'
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
+
+for link in soup.find_all('a'):
+    print(link.get('href'))
+```
+
+Question #2 is same session:
+```
+(gpt) sgpt --chat mysessionname --code "website name is imdb.com"
+```
+
+Result #2:
+```
+import requests
+from bs4 import BeautifulSoup
+
+url = 'https://www.imdb.com'
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
+
+for link in soup.find_all('a'):
+    print(link.get('href'))
+```
+
