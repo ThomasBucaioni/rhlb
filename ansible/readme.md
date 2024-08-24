@@ -55,6 +55,8 @@ export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
 export PROMPT_COMMAND='PS1="[\u@\h \W]$(git_ps1)\\\$ "'
 export GIT_PAGER=/usr/bin/cat
+
+alias pastebin="curl -F 'sprunge=<-' http://sprunge.us" # or fpaste
 ```
 
 ## Yaml
