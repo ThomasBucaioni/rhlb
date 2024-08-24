@@ -29,7 +29,7 @@ cp classroom_env/files/vimrc ~/.vimrc
 cp classroom_env/files/config ~/.config/yamllint/config
 ```
 
-Conpile Vim:
+Compile Vim:
 ```
 cd ~/github/vim
 ./configure --with-features=huge --enable-python3interp=yes --with-python3-config-dir=$(python3.12-config --configdir)
