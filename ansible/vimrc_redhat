@@ -1,4 +1,5 @@
 set ai et ts=2 sts=2 sw=2
+autocmd FileType yaml setlocal ai ts=2 et sw=2
 
 :set nu
 :set nonu
