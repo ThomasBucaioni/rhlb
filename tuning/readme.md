@@ -602,8 +602,8 @@ systemctl reboot
 ```
 
 Docs:
-- /usr/share/doc/kernel-doc-*/Documentation/admin-guide/mm/hugetlbpage.rst
-- /usr/share/doc/kernel-doc-*/Documentation/admin-guide/mm/transhuge.rst 
+- `/usr/share/doc/kernel-doc-*/Documentation/admin-guide/mm/hugetlbpage.rst`
+- `/usr/share/doc/kernel-doc-*/Documentation/admin-guide/mm/transhuge.rst`
 
 ### Paging
 
@@ -645,7 +645,7 @@ vim /etc/systemd/system/sssd.service.d/10-OOMscore.conf
     OOMScoreAdjust=-1000
 ```
 
-Doc: `/usr/share/doc/kernel-doc-*/Documentation/sysctl/vm.txt
+Doc: `/usr/share/doc/kernel-doc-*/Documentation/sysctl/vm.txt`
 
 ### NUMA
 
@@ -672,7 +672,9 @@ numactl --interleave all -- mybin
 
 Tunable: `vm.overcommit_memory`
 
-Doc: `/usr/share/doc/kernel-doc-*/Documentation/sysctl/vm.txt`
+Doc: 
+- `/usr/share/doc/kernel-doc-*/Documentation/sysctl/vm.txt`
+- `/usr/share/doc/kernel-doc-*/Documentation/vm/overcommit-accounting.rst`
 
 ## Storage I/O
 
