@@ -1,5 +1,22 @@
 # Apache
 
+## Security
+
+### Firewalld
+
+```
+firewall-cmd --add-service=http --add-service=https --permanent
+firewall-cmd --reload
+```
+
+### Selinux
+
+```
+semanage fcontext -a -t httpd_sys_content_t /srv/virt/www/'(/.*)?'
+restorecon -rv /srv/virt/www
+semanage port -a -t http_port_t -p tcp 81
+```
+
 ## Virtual hosts
 
 ### HTTP
