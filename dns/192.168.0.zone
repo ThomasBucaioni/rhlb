@@ -1,0 +1,16 @@
+$TTL 300
+
+@       IN SOA  srv1.myzone.somedom.xyz. webmaster.somedom.xyz. (
+                                0       ; serial
+                                1H      ; refresh
+                                5M      ; retry
+                                1W      ; expire
+                                1M )    ; minimum
+
+; owner         TTL     CL  type        RDATA
+                600     IN  NS          srv1.myzone.somedom.xyz.
+
+10                      IN  PTR         srv1.myzone.somedom.xyz.
+11                      IN  PTR         srv2.myzone.somedom.xyz.
+12                      IN  PTR         srv3.myzone.somedom.xyz.
+13                      IN  PTR         srv4.myzone.somedom.xyz.
