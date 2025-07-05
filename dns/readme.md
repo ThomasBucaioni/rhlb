@@ -182,3 +182,16 @@ options {
 }
 ```
 
+## Unbound
+
+```
+yum install unbound
+unbound-control-setup
+unbound-checkconf
+firewall-cmd --permanent --add-service=dns
+firewall-cmd --reload
+systemctl enable --now unbound
+unbound-control dump_cache
+unbound-control srv1.myzone.somedom.xyz
+```
+
