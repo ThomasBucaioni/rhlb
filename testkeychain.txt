@@ -1,1 +1,0 @@
-keychain ~/.ssh/id-server1 ~/.ssh/id-server2 ~/.ssh/id-server3 . ~/.keychain/$HOSTNAME-sh
