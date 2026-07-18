@@ -36,4 +36,23 @@ WantedBy=multi-user.target
 ```
 Boot up: `ether-wake -i otherif mymac`
 
+## Qemu
 
+Direct:
+```
+virsh -c qemu+ssh://root@myhv/system console myvm
+```
+
+Tunnel:
+```
+virsh vncdisplay myvm # starts at 5900
+ssh -L 590X:127.0.0.1:590X root@myhv
+remote-viewer vnc://localhost:590X
+```
+
+VM config:
+```
+sudo grubby --update-kernel=ALL --args="console=ttyS0,115200n8"
+systemctl enable serial-getty@ttyS0.service
+stty rows 50 cols 180
+```
