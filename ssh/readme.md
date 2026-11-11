@@ -54,5 +54,10 @@ VM config:
 ```
 sudo grubby --update-kernel=ALL --args="console=ttyS0,115200n8"
 systemctl enable serial-getty@ttyS0.service
+echo "$TERM"
+echo "$LINES $COLUMNS"
+stty size
+tput lines
+tput cols
 stty rows 50 cols 180
 ```
