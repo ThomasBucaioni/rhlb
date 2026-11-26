@@ -1,0 +1,18 @@
+{
+  "hostname": "dns-lb.example.test",
+  "interface": "link",
+  "user": "user",
+  "address": "192.0.2.10/24",
+  "gateway": "192.0.2.1",
+  "dns": [
+    "192.0.2.1"
+  ],
+  "packages": [
+    "bind",
+    "bind-utils",
+    "haproxy"
+  ],
+  "memory_mib": 4096,
+  "vcpus": 2,
+  "disk_gib": 30
+}
